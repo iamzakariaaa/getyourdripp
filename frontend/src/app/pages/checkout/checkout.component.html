@@ -1,0 +1,73 @@
+<div class="checkout-container">
+  <div class="form-column">
+    <h2>Shipping Information</h2>
+    <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
+      <div class="username">
+        <div class="form-group">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" >
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" >
+        </div> 
+      </div>        
+      <div class="user-info">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" >
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" formControlName="phoneNumber" required>
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <label for="address">Shipping Address:</label>
+        <textarea id="address" formControlName="address" rows="4" required></textarea>
+      </div>
+      <div class="form-links">
+        <a routerLink="/cart">
+          <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> 
+          <span>Back to Cart</span>
+        </a>
+        <button type="submit">Purchase</button>
+
+      </div>
+    </form>
+  </div>
+
+  <div class="summary-column">
+    <h2>Order Summary</h2>
+    <div class="order-summary">
+      <div class="dropdown-card" (click)="toggleDropdown()">
+        <span class="dropdown-label">Ordered Items: {{ orderItems.length }}</span>
+        <i class="arrow-icon" [class]="dropdownOpen ? 'fa fa-arrow-up' : 'fa fa-arrow-down'"></i>
+      </div>
+      <div *ngIf="dropdownOpen" class="dropdown-content">
+        <div *ngFor="let item of orderItems" class="item-card">
+          <!-- <div class="item-image">
+            <img [src]="item.image" alt="Product Image">
+          </div> -->
+          <div class="item-details">
+            <h4>{{ item.product.name }}</h4>
+            <span>{{ item.product.description }}</span>
+            <p>Price: ${{ item.amount}}</p>
+          </div>           
+        </div>
+      </div>
+      <div class="pricing">          
+        <p>Subtotal <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{ subtotal}}</p>
+          <p>Estimated Dilevery & Handling : Free </p>
+          <p>Estimated Taxes <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{tax}} </p>
+          <hr>
+          <p>Total Price: ${{ totalPrice }}</p>  
+      </div>
+    </div>
+    <div class="service-info">
+      <p>Cash On Delivery service</p>
+      <p>Online Payment Service is under Development</p>
+    </div>
+  </div>
+</div>

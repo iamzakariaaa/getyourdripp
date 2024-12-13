@@ -1,0 +1,49 @@
+<div class="cart-container">
+  <div class="cart">
+    <div class="cart-header">
+      <h2>You Cart</h2>
+      <button (click)="clearCart()" class="clear-btn">
+        Clear Cart
+      </button>
+    </div>   
+    
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems">        
+          <img [src]="getImageUrl(item.id)" alt="{{ item.name }}" class="item-image">         
+          <div class="item-details">
+              <div class="item-header">
+                <h4>{{ item.product.name }}</h4>
+                <p class="price">${{ item.amount }}</p>
+              </div>
+              <p class="description">{{ item.product.description }}</p>             
+              <div class="item-set">
+                <button (click)="deleteItem(item)" class="delete-btn"><i class="fa fa-trash-o"></i></button>               
+                <div class="quantity">
+                  <button (click)="increaseQuantity(item)" class="quantity-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                  <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(item)" class="quantity-control">
+                  <button (click)="decreaseQuantity(item)" class="quantity-btn"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                </div>
+                
+            </div>                    
+          </div>                            
+      </div>
+    </div>
+  </div>   
+    <div class="cart-summary">
+      <h2>Summary</h2>
+      <div>
+          <p>Subtotal <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{ subtotal }}</p>
+          <p>Estimated Dilevery & Handling : Free </p>
+          <p>Estimated Taxes <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{taxe}} </p>
+          <hr>
+          <p>Total Price: ${{ totalPrice }}</p>    
+      </div>        
+      <a class="checkout-btn" *ngIf="cartItems.length > 0" routerLink="/checkout">
+        <i class="fa fa-lock"></i> Place Order
+      </a>
+         
+    </div>
+
+    
+</div>  
+

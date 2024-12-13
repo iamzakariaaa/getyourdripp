@@ -1,0 +1,11 @@
+.main {
+    display: block;
+    height: auto;
+    font-family: 'Anuphan';
+    background-color: #f3f3f3;
+    height: 100%;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+}
