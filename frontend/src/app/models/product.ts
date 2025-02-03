@@ -6,5 +6,6 @@ export interface Product {
     category: string;
     units: number;
     image: string;
+
   }
   

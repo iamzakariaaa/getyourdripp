@@ -1,73 +1,88 @@
 <div class="checkout-container">
-  <div class="form-column">
-    <h2>Shipping Information</h2>
-    <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
-      <div class="username">
-        <div class="form-group">
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" >
+  <h1>Checkout</h1>
+  <div class="checkout-columns">
+    <!-- Column 1: Shipping Information -->
+    <div class="shipping-column">
+      <h2>Shipping Information</h2>
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <!-- User Credentials -->
+        <div class="user-info">
+          <div class="full-name">
+            <div class="form-group">
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" formControlName="firstName" placeholder="Enter your First Name" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" formControlName="lastName" placeholder="Enter your Last Name" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" formControlName="email" placeholder="Enter your Email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" formControlName="phoneNumber" placeholder="Enter your Phone Number" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" >
-        </div> 
-      </div>        
-      <div class="user-info">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" >
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number:</label>
-          <input type="tel" id="phone" formControlName="phoneNumber" required>
-        </div>
-      </div>
-     
-      <div class="form-group">
-        <label for="address">Shipping Address:</label>
-        <textarea id="address" formControlName="address" rows="4" required></textarea>
-      </div>
-      <div class="form-links">
-        <a routerLink="/cart">
-          <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> 
-          <span>Back to Cart</span>
-        </a>
-        <button type="submit">Purchase</button>
 
-      </div>
-    </form>
-  </div>
-
-  <div class="summary-column">
-    <h2>Order Summary</h2>
-    <div class="order-summary">
-      <div class="dropdown-card" (click)="toggleDropdown()">
-        <span class="dropdown-label">Ordered Items: {{ orderItems.length }}</span>
-        <i class="arrow-icon" [class]="dropdownOpen ? 'fa fa-arrow-up' : 'fa fa-arrow-down'"></i>
-      </div>
-      <div *ngIf="dropdownOpen" class="dropdown-content">
-        <div *ngFor="let item of orderItems" class="item-card">
-          <!-- <div class="item-image">
-            <img [src]="item.image" alt="Product Image">
-          </div> -->
-          <div class="item-details">
-            <h4>{{ item.product.name }}</h4>
-            <span>{{ item.product.description }}</span>
-            <p>Price: ${{ item.amount}}</p>
-          </div>           
+        <!-- Address Details -->
+        <div class="address-info">
+          <div class="form-group">
+            <label for="street">Street:</label>
+            <input type="text" id="street" formControlName="street" placeholder="Enter Street" required>
+          </div>
+          <div class="form-group">
+            <label for="zipcode">Zip Code:</label>
+            <input type="text" id="zipcode" formControlName="zipcode" placeholder="ZipCode / Code Postal" required>
+          </div>
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" formControlName="city" placeholder="Enter City" required>
+          </div>
         </div>
-      </div>
-      <div class="pricing">          
-        <p>Subtotal <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{ subtotal}}</p>
-          <p>Estimated Dilevery & Handling : Free </p>
-          <p>Estimated Taxes <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{tax}} </p>
-          <hr>
-          <p>Total Price: ${{ totalPrice }}</p>  
-      </div>
+
+        <!-- Line Address -->
+        <div class="form-group lineAddress">
+          <label for="address">Line Address (Additional Info) :</label>
+          <textarea id="address" formControlName="address" rows="2" placeholder="You can rewrite your full Address Here" required></textarea>
+        </div>
+        <button class="checkout-btn" *ngIf="orderItems.length > 0" type="submit" [disabled]="checkoutForm.invalid">
+          <i class="fa fa-lock"></i> Purchase
+        </button>
+      </form>
     </div>
-    <div class="service-info">
-      <p>Cash On Delivery service</p>
-      <p>Online Payment Service is under Development</p>
+
+    <!-- Column 2: Cart Review -->
+    <div class="cart-column">
+      <h2>Review your cart</h2>
+      <div class="cart-items">
+        <div *ngFor="let item of orderItems" class="cart-item">
+          <img [src]="getImageUrl(item.id)" alt="{{ item.product.name }}" class="item-image"> 
+          <div class="item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p>{{ item.amount | currency }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="cart-summary">
+        <div>
+            <p>Subtotal <i class="fa fa-question-circle-o" aria-hidden="true"></i> {{ subtotal | currency}}</p>
+            <p>Coupon : None </p>
+            <p>Estimated Dilevery & Handling : <i class="fa fa-question-circle-o" aria-hidden="true"></i> ${{tax}} </p>
+            <p>Total Price: {{ totalPrice | currency }}</p>    
+        </div>      
+        <div class="check-btn">
+          <a class="cart-btn" *ngIf="orderItems.length > 0" routerLink="/cart">
+            <i class="fa fa-arrow-left"></i> Update Cart
+          </a>
+          
+        </div>         
+           
+      </div>
     </div>
   </div>
 </div>

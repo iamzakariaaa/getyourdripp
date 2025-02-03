@@ -22,11 +22,11 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartItems = this.cartService.getCartItems();
+    this.calculateTotalPrice();
     this.calculateSubTotal();
     this.cartItems.forEach(item => {
       this.fetchProductImage(item.id);
     });
-    this.totalPrice = this.subtotal + this.taxe;
     console.log(this.cartItems)
     console.log('Image Map Items:', this.imageMap);
   }
@@ -34,34 +34,44 @@ export class CartComponent implements OnInit {
   increaseQuantity(item: any): void {
     item.quantity++;
     this.updateQuantity(item);
-}
-
-decreaseQuantity(item: any): void  {
+    this.calculateTotalPrice(); // Recalculate total price
+  }
+  
+  decreaseQuantity(item: any): void {
     if (item.quantity > 1) {
-        item.quantity--;
-        this.updateQuantity(item);
+      item.quantity--;
+      this.updateQuantity(item);
+      this.calculateTotalPrice(); // Recalculate total price
     }
-}
-
+  }
+  
   updateQuantity(item: any): void {
     this.cartService.updateCartItem(item);
     this.calculateSubTotal();
+    this.calculateTotalPrice(); // Recalculate total price
   }
-
+  
   deleteItem(item: any): void {
     this.cartService.deleteCartItem(item);
     this.cartItems = this.cartService.getCartItems();
     this.calculateSubTotal();
+    this.calculateTotalPrice(); // Recalculate total price
   }
-
+  
   clearCart(): void {
     this.cartService.clearCart();
     this.cartItems = [];
     this.calculateSubTotal();
+    this.calculateTotalPrice(); // Recalculate total price
   }
 
   calculateSubTotal(): void {
     this.subtotal = this.cartItems.reduce((total, item) => total + (item.amount * item.quantity ), 0);
+  }
+
+  calculateTotalPrice(): void {
+    this.calculateSubTotal(); // Ensure subtotal is up-to-date
+    this.totalPrice = this.subtotal + this.taxe;
   }
 
   getImageUrl(productId: number): string | undefined {

@@ -12,6 +12,7 @@ import java.util.Set;
 public class Purchase {
     private User user;
     private Address shippingAddress;
+    private String phoneNumber;
     private Order order;
     private Set<OrderItem> orderItems;
 }

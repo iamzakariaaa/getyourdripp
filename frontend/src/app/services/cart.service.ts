@@ -40,6 +40,7 @@ export class CartService {
 
   clearCart(): void {
     localStorage.removeItem('cartItems');
+    this.cartUpdated.next();
   }
 
   updateCartItem(item: any): void {
@@ -53,7 +54,7 @@ export class CartService {
     this.cartUpdated.next();
   }
 
-  getCartUpdated() {
+  getCartUpdated():Observable<void> {
     return this.cartUpdated.asObservable();
   }
 

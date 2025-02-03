@@ -29,11 +29,11 @@ public class ProductServiceTests {
     public void setup(){
         product = Product.builder()
                 .id(1L)
-                .productName("Hoodie XJ")
+                .name("Hoodie XJ")
                 .description("Black Over Sized Hoodie, Very Confy and coton Made.")
                 .price(BigDecimal.valueOf(29.99))
                 .category(Category.HOODIE)
-                .unitsInStock(5)
+                .units(5)
                 .imageUrl("classpath:images/hoodie.jpg".getBytes())
                 .build();
     }

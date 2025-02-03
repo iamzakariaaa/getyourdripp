@@ -30,6 +30,8 @@ public class Order {
     private String phoneNumber;
     @Column(name = "total_amount",scale = 2)
     private BigDecimal totalAmount;
+    @Column(name = "total_quantity")
+    private int totalQuantity;
     @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "tracking_number")

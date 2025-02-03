@@ -36,7 +36,8 @@ public class CheckoutServiceImpl implements CheckoutService{
         // populate order with status and shippingAddress
         order.setStatus(Status.PENDING);
         order.setShippingAddress(purchase.getShippingAddress());
-
+        //populate order with phone number
+        order.setPhoneNumber(purchase.getPhoneNumber());
         // populate user with order
         User user = purchase.getUser();
 

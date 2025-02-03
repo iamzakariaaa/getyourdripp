@@ -1,0 +1,12 @@
+import { Address } from "./address";
+import { Order } from "./order";
+import { OrderItem } from "./order-item";
+import { User } from "./user";
+
+export interface Purchase {
+    user: User;
+    shippingAddress: Address;
+    order: Order;
+    orderItems: OrderItem[]; 
+    phoneNumber:String;
+}

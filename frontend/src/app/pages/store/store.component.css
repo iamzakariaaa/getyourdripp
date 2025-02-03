@@ -156,6 +156,9 @@
     padding: 20px;
     width: 250px;
   }
+  .product h3 {
+    font-weight: 600;
+  }
   
   .product img {
     align-self: center;
@@ -175,10 +178,11 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+    font-family: "Anuphan";
     button {
         cursor: pointer;
         border: none;    
-        border-radius: 25px;   
+        border-radius: 5px;   
         padding: 0 10px 0 10px;
         font-size: 14px;
         background-color: transparent; 
@@ -189,7 +193,7 @@
         color: white;
     }
     p{
-        font-weight: bold;
+        font-weight: 500;
     }
   }
   
