@@ -1,10 +1,12 @@
 package com.iamzakaria.dripp.service.checkout;
 
+import com.iamzakaria.dripp.dao.ProductRepository;
 import com.iamzakaria.dripp.dao.UserRepository;
 import com.iamzakaria.dripp.dto.Purchase;
 import com.iamzakaria.dripp.dto.PurchaseResponse;
 import com.iamzakaria.dripp.entity.Order;
 import com.iamzakaria.dripp.entity.OrderItem;
+import com.iamzakaria.dripp.entity.Product;
 import com.iamzakaria.dripp.entity.User;
 import com.iamzakaria.dripp.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.UUID;
 public class CheckoutServiceImpl implements CheckoutService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
@@ -31,7 +35,16 @@ public class CheckoutServiceImpl implements CheckoutService{
 
         // populate order with orderItems
         Set<OrderItem> orderItems = purchase.getOrderItems();
-        orderItems.forEach(order::add);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOrder(order); // Ensure relationship is set
+
+            // Fetch product price and set unitPrice
+            Product product = productRepository.findById(orderItem.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found with ID: " + orderItem.getProductId()));
+
+            orderItem.setUnitPrice(product.getPrice());
+        }
+        order.setOrderItems(orderItems);
 
         // populate order with status and shippingAddress
         order.setStatus(Status.PENDING);

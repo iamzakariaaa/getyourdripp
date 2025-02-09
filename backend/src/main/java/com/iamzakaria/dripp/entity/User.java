@@ -1,5 +1,6 @@
 package com.iamzakaria.dripp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iamzakaria.dripp.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,7 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
     public void add(Order order) {

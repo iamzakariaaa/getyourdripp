@@ -1,5 +1,6 @@
 package com.iamzakaria.dripp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +18,9 @@ public class OrderItem {
     @Column(name = "product_id")
     private Long productId;
     private int quantity;
-    @Column(scale = 2)
-    private BigDecimal totalPrice;
+    @Column(scale = 2,name = "unit_price")
+    private BigDecimal unitPrice;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

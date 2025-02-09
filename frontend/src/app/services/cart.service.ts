@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { StorageService } from './storage.service';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class CartService {
   
   private cartUpdated = new Subject<void>();
   private baseUrl = 'http://localhost:8080/api/v1/products';
-  constructor(private storageService : StorageService) { }
+  constructor(private storageService : StorageService, private http: HttpClient) { }
  
   addToCart(product: any): void {
     let cartItems: any[] = JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -69,22 +69,9 @@ export class CartService {
     this.cartUpdated.next();
   }
   
-  getProductImage(productId: number): Observable<any> {
+  getProductImage(productId: number): Observable<Blob> {
     const token = this.storageService.getToken();
-    const headers = { Authorization: `Bearer ${token}` };
-    return this.handleRequest(axios.get(`${this.baseUrl}/${productId}/image`, { headers, responseType: 'arraybuffer' }));
-  }
-  
-  private handleRequest<T>(axiosPromise: Promise<AxiosResponse<T>>): Observable<T> {
-    return new Observable<T>(observer => {
-      axiosPromise
-        .then((response: AxiosResponse<T>) => {
-          observer.next(response.data);
-          observer.complete();
-        })
-        .catch((error: AxiosError) => {
-          observer.error(`Error: ${error}`);
-        });
-    })
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get(`${this.baseUrl}/${productId}/image`, { headers, responseType: 'blob' });
   }
 }

@@ -1,5 +1,6 @@
 package com.iamzakaria.dripp.controller;
 
+import com.iamzakaria.dripp.dto.OrderDTO;
 import com.iamzakaria.dripp.entity.Order;
 import com.iamzakaria.dripp.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders(){
-        List<Order> orders = orderService.getAllOrders();
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 }

@@ -13,5 +13,28 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './orders.component.css'
 })
 export class OrdersComponent {
- constructor(){}
+  orders: any[] = [];
+  selectedOrder: any = null;
+
+  constructor(private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.orderService.getOrders().subscribe({
+      next: (data) => {
+        console.log('Orders received:', data);
+        this.orders = data;
+      },
+      error: (err) => {
+        console.error('Error fetching orders:', err);
+      }
+    });
+  }
+
+  openModal(order: any): void {
+    this.selectedOrder = order;
+  }
+
+  closeModal(): void {
+    this.selectedOrder = null;
+  }
 }

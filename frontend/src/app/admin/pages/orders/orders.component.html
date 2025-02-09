@@ -1,1 +1,70 @@
-<div>Orders Table Works !</div>
+<div class="container">
+    <h2>Order History</h2>
+
+    <!-- Orders Table -->
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>ordered at</th>
+                <th>tracking Number</th>
+                <th>customer</th>
+                <th>Address</th>
+                <th>total amount</th>
+                <th>status</th>
+                <th>reciept</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of orders">
+                <td>{{ order.id }}</td>
+                <td>{{ order.createdAt | date: 'medium' }}</td>
+                <td>{{ order.orderTrackingNumber }}</td>
+                <td>{{order.userFirstName}} {{order.userLastName}}</td>
+                <td>{{order.lineAddress}}</td>
+                <td>{{ order.totalAmount | currency }}</td>
+                <td>
+                    <span class="status" [ngClass]="{
+                        'pending': order.status === 'PENDING',
+                        'completed': order.status === 'COMPLETED',
+                        'cancelled': order.status === 'CANCELLED'
+                    }">
+                        {{ order.status }}
+                    </span>
+                </td>
+                <td>
+                    <button class="details-btn" (click)="openModal(order)">More Details</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Order Details Modal -->
+    <div class="modal" *ngIf="selectedOrder" [ngClass]="{ 'show': selectedOrder }">
+        <div class="modal-content">
+            <button class="close-btn" (click)="closeModal()">×</button>
+            <h3>Order #{{ selectedOrder.id }}</h3>
+            <p><strong>Date:</strong> {{ selectedOrder.createdAt | date: 'medium' }}</p>
+            <p><strong>Tracking #:</strong> {{ selectedOrder.orderTrackingNumber }}</p>
+            <hr>
+            <h4>Customer Details</h4>
+            <p>{{ selectedOrder.userFirstName }} {{ selectedOrder.userLastName }}</p>
+            <p>Email: {{ selectedOrder.userEmail }}</p>
+            <p>Phone: {{ selectedOrder.phoneNumber }}</p>
+            <p>Address: {{selectedOrder.lineAddress}}</p>
+            <hr>
+            <h4>Order Summary</h4>
+            <p><strong>Total Amount:</strong> {{ selectedOrder.totalAmount | currency }}</p>
+            <p><strong>Total Quantity:</strong> {{ selectedOrder.totalQuantity }}</p>
+            <p><strong>Status:</strong> {{ selectedOrder.status }}</p>
+            <hr>
+            <h4>Items</h4>
+            <ul class="order-items">
+                <li *ngFor="let item of selectedOrder.items">
+                    <span>#{{ item.productId }} - {{ item.quantity }}x</span>
+                    <span>{{ item.unitPrice | currency }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

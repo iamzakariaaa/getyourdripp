@@ -94,7 +94,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-250px * 5)); /* Adjust this value based on the number of cards */
+    transform: translateX(calc(-250px * 5)); 
   }
 }
 

@@ -1,4 +1,4 @@
-.auth-container{
+.auth-container {
     flex: 1;
     padding: 150px;
     height: auto;
@@ -7,23 +7,27 @@
     align-items: center;
     justify-content: center;
 }
-h2{
+
+h2 {
     margin: 0;
     text-align: center;
 }
-.login,.signup{
+
+.login,.signup {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-a{
+
+a {
     cursor: pointer;
-    color: rgb(34, 119, 255);
-    
+    color: rgb(34, 119, 255);  
 }
-p{
+
+p {
     margin: 0;
 }
-img{
+
+img {
     width: 150px;
 }

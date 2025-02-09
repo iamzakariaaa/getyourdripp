@@ -1,5 +1,6 @@
 package com.iamzakaria.dripp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class Address {
     private String lineAddress;
     @Column(name = "zip_code")
     private String zipCode;
+    @JsonIgnore
     @OneToOne
     @PrimaryKeyJoinColumn
     private Order order;
